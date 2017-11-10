@@ -408,7 +408,13 @@ thread_set_priority(int new_priority)
      * 
      * thread_current()->priority = new_priority;
      */
-    /* My implementation starts here. */
+
+    /* My implementation starts here. 
+     * Checks whether the running thread's priority is equal to 
+     * the new_priority. If not, set the running thread's priority
+     * to new_priority and call yield() to switch the current thread
+     * in the CPU.
+     */
     if (running_thread()->priority != new_priority) {
         running_thread()->priority = new_priority;
         thread_yield();
@@ -434,11 +440,6 @@ thread_set_nice(int nice UNUSED)
 int
 thread_get_nice(void)
 {
-    /* My implementation starts here */
-    // return thread_current()->nice;
-    /* My implementation ends here */
-    
-    /* Old implementation: */
     return 0;
 }
 
@@ -668,12 +669,16 @@ allocate_tid(void)
 char *rguid = 0;
 uint32_t thread_stack_ofs = offsetof(struct thread, stack);
 
-
-/* My implementation starts here. */
-bool priority_comparator(const struct list_elem *elem1, const struct list_elem *elem2, void *aux UNUSED) {
-    struct thread* a = list_entry(elem1,struct thread, elem);
-    struct thread* b = list_entry(elem2,struct thread, elem);
+/* My implementation starts here. 
+ * Comparator for priority scheduling.
+ * */
+bool priority_comparator(const struct list_elem *elem1, 
+    const struct list_elem *elem2, void *aux UNUSED)
+{
+    struct thread *a = list_entry(elem1, struct thread, elem);
+    struct thread *b = list_entry(elem2, struct thread, elem);
     
-    return a->priority > b->priority; 
+    // If a's priority is greater than b's priority, return true. Otherwise, false.
+    return (a->priority) > (b->priority);
 }
 /* My implementation ends here. */

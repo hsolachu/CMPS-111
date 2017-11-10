@@ -1,11 +1,11 @@
-qemu-system-x86_64 -hda /tmp/Kq327v_OZS.dsk -m 4 -net none -nographic -monitor null
+qemu-system-x86_64 -hda /tmp/CRwt8H8Sxj.dsk -m 4 -net none -nographic -monitor null
 PiLo hda1
 Loading..........
 Kernel command line: -q run priority-condvar
 Pintos booting with 3,968 kB RAM...
 367 pages available in kernel pool.
 367 pages available in user pool.
-Calibrating timer...  202,956,800 loops/s.
+Calibrating timer...  261,734,400 loops/s.
 Boot complete.
 Executing 'priority-condvar':
 (priority-condvar) begin
@@ -20,12 +20,6 @@ Executing 'priority-condvar':
 (priority-condvar) Thread priority 25 starting.
 (priority-condvar) Thread priority 24 starting.
 (priority-condvar) Signaling...
-(priority-condvar) Thread priority 23 woke up.
-(priority-condvar) Signaling...
-(priority-condvar) Thread priority 22 woke up.
-(priority-condvar) Signaling...
-(priority-condvar) Thread priority 21 woke up.
-(priority-condvar) Signaling...
 (priority-condvar) Thread priority 30 woke up.
 (priority-condvar) Signaling...
 (priority-condvar) Thread priority 29 woke up.
@@ -39,10 +33,16 @@ Executing 'priority-condvar':
 (priority-condvar) Thread priority 25 woke up.
 (priority-condvar) Signaling...
 (priority-condvar) Thread priority 24 woke up.
+(priority-condvar) Signaling...
+(priority-condvar) Thread priority 23 woke up.
+(priority-condvar) Signaling...
+(priority-condvar) Thread priority 22 woke up.
+(priority-condvar) Signaling...
+(priority-condvar) Thread priority 21 woke up.
 (priority-condvar) end
 Execution of 'priority-condvar' complete.
-Timer: 45 ticks
-Thread: 0 idle ticks, 46 kernel ticks, 0 user ticks
+Timer: 48 ticks
+Thread: 0 idle ticks, 49 kernel ticks, 0 user ticks
 Console: 1667 characters output
 Keyboard: 0 keys pressed
 Powering off...

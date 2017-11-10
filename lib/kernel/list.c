@@ -137,7 +137,7 @@ list_rend (struct list *list)
   return &list->head;
 }
 
-/* Return's LIST's head.
+/* Returns LIST's head.
 
    list_head() can be used for an alternate style of iterating
    through a list, e.g.:

@@ -37,6 +37,10 @@
 #include "threads/interrupt.h"
 #include "threads/thread.h"
 
+/* My implementation starts here. */
+#include "threads/semaphore.h"
+/* My implementation ends here. */
+
 /* 
  * Initializes condition variable COND.  A condition variable
  * allows one piece of code to signal a condition and cooperating
@@ -81,7 +85,14 @@ condvar_wait(struct condvar *cond, struct lock *lock)
 
     struct semaphore waiter;
     semaphore_init(&waiter, 0);
-    list_push_back(&cond->waiters, &waiter.elem);
+
+    /* Old implementation:
+     *
+     * list_push_back(&cond->waiters, &waiter.elem);
+     */
+    /* My implementation starts here. */
+    list_insert_ordered(&cond->waiters, &waiter.elem, sema_comparator, NULL);
+    /* My implementation ends here. */
     lock_release(lock);
     semaphore_down(&waiter);
     lock_acquire(lock);
@@ -105,6 +116,9 @@ condvar_signal(struct condvar *cond, struct lock *lock UNUSED)
     ASSERT(lock_held_by_current_thread(lock));
 
     if (!list_empty(&cond->waiters)) {
+        /* My implementation starts here. */
+        list_sort(&cond->waiters, sema_comparator, NULL);
+        /* My implementation ends here. */
         semaphore_up(list_entry(list_pop_front(&cond->waiters), struct semaphore, elem));
     }
 }

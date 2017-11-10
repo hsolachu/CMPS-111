@@ -72,7 +72,8 @@ semaphore_down(struct semaphore *sema)
     ASSERT(!intr_context());
 
     enum intr_level old_level = intr_disable();
-    while (sema->value == 0) {
+    while (sema->value == 0)
+    {
         list_push_back(&sema->waiters, &thread_current()->elem); 
         /* My implementation starts here. 
         list_insert_ordered(&sema->waiters, &thread_current()->elem, priority_comparator, NULL);
@@ -97,7 +98,8 @@ semaphore_try_down(struct semaphore *semaphore)
 
     bool success = false;
     enum intr_level old_level = intr_disable();
-    if (semaphore->value > 0) {
+    if (semaphore->value > 0)
+    {
         semaphore->value--;
         success = true;
     } else {
@@ -107,7 +109,7 @@ semaphore_try_down(struct semaphore *semaphore)
 
     return success;
 }
-
+ 
 /* 
  * Up or Dijkstra's "V" operation on a semaphore.  Increments SEMA's value
  * and wakes up one thread of those waiting for SEMA, if any.
@@ -122,7 +124,8 @@ semaphore_up(struct semaphore *semaphore)
     ASSERT(semaphore != NULL);
 
     old_level = intr_disable();
-    if (!list_empty(&semaphore->waiters)) {
+    if (!list_empty(&semaphore->waiters))
+    {
         /* My implementation starts here. */
         list_sort(&semaphore->waiters, priority_comparator, NULL);
         /* My implementation ends here. */
@@ -135,3 +138,36 @@ semaphore_up(struct semaphore *semaphore)
     thread_yield();
     /* My implementation ends here. */
 }
+
+/* My implementation starts here. */
+bool sema_comparator(const struct list_elem *elem1, 
+    const struct list_elem *elem2, void *aux UNUSED)
+{
+    struct semaphore* a = list_entry(elem1, struct semaphore, elem);
+    struct semaphore* b = list_entry(elem2, struct semaphore, elem);
+    
+    /*
+     * Semaphore has a list of threads.
+     * Check if the list is empty.
+     * Look at the first element in each semaphore.
+     * Which first element (a thread) has the highest priority? 
+     * First or second?
+     */
+
+    if (list_empty(&a->waiters))
+    {
+        return false;
+    }
+    if (list_empty(&b->waiters))
+    {
+        return true;
+    }
+    list_sort(&a->waiters, (list_less_func *) &priority_comparator, NULL);
+    list_sort(&b->waiters, (list_less_func *) &priority_comparator, NULL);
+    
+    struct thread *ta = list_entry(list_front(&a->waiters), struct thread, elem);
+    struct thread *tb = list_entry(list_front(&b->waiters), struct thread, elem);
+
+    return (ta->priority) > (tb->priority);
+}
+/* My implementation ends here. */

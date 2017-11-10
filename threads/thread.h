@@ -138,7 +138,7 @@ int thread_get_recent_cpu(void);
 int thread_get_load_avg(void);
 
 /* My implementation starts here. */
-bool priority_comparator(const struct list_elem *elem1, const struct list_elem *elem2, void *aux UNUSED);
+bool priority_comparator(const struct list_elem *elem1, const struct list_elem *elem2, void *aux);
 /* My implementation ends here. */
 
 #endif /* threads/thread.h */

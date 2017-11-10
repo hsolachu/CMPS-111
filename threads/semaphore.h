@@ -17,4 +17,8 @@ bool semaphore_try_down(struct semaphore *);
 void semaphore_up(struct semaphore *);
 void semaphore_self_test(void);
 
+/* My implementation starts here. */
+bool sema_comparator(const struct list_elem *elem1, const struct list_elem *elem2, void *aux);
+/* My implementation ends here. */
+
 #endif /* UCSC CMPS111 */
